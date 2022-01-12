@@ -9,6 +9,25 @@ Goals:
 2. Involve minimal boilerplate and screen-wastage for the user.
 3. Be applicable both for static and procedurally-generated pages.
 
+## Dependency Details
+Hypertext is available in Kenzie's repository.
+
+```xml
+<repository>
+  <id>kenzie</id>
+  <name>Kenzie's Repository</name>
+  <url>https://repo.kenzie.mx/releases</url>
+</repository>
+```
+
+```xml
+<dependency>
+  <groupId>mx.kenzie</groupId>
+  <artifactId>hypertext</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
 ## Using Hypertext
 
 Pages can be written through the `PageWriter` resource, which deals with exceptions, charsets and output automatically.
