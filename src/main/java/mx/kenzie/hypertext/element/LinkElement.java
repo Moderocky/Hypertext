@@ -1,7 +1,9 @@
 package mx.kenzie.hypertext.element;
 
+import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
 
+@Ignore
 public class LinkElement extends HREFElement {
     
     public LinkElement(String tag, Writable... children) {
@@ -23,7 +25,7 @@ public class LinkElement extends HREFElement {
     
     @Override
     protected LinkElement clone() {
-        return super.clone(new LinkElement());
+        return super.clone(new LinkElement(tag));
     }
     
     public LinkElement integrity(String hash) {

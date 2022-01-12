@@ -1,9 +1,11 @@
 package mx.kenzie.hypertext.element;
 
+import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Navigator;
 
 import java.util.ArrayList;
 
+@Ignore
 class ElementNavigator extends Navigator {
     
     protected ElementNavigator(HTMElement element) {

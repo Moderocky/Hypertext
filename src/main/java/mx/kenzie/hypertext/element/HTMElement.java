@@ -4,6 +4,7 @@ import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
+import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -64,6 +65,61 @@ public class HTMElement implements Writable {
         element.single = this.single;
         element.finalise = false;
         return element;
+    }
+    
+    @Override
+    public String toString() {
+        final StringBuilderOutputStream stream = new StringBuilderOutputStream();
+        try {
+            this.write(stream, Charset.defaultCharset());
+        } catch (IOException e) {
+            return "HTMElement[" + tag + "]";
+        }
+        return stream.toString();
+    }
+    
+    @Ignore
+    @Override
+    public void write(OutputStream stream, Charset charset) throws IOException {
+        this.open(stream, charset);
+        this.body(stream, charset);
+        this.close(stream, charset);
+    }
+    
+    protected void open(OutputStream stream, Charset charset) throws IOException {
+        this.write(stream, charset, START + tag);
+        if (classes.size() > 0) {
+            this.write(stream, charset, " ");
+            this.write(stream, charset, "class=\"");
+            for (final String thing : classes) {
+                this.write(stream, charset, thing + ' ');
+            }
+            this.write(stream, charset, "\"");
+        }
+        if (properties.size() > 0) {
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
+                this.write(stream, charset, " ");
+                this.write(stream, charset, entry.getKey());
+                this.write(stream, charset, "=\"");
+                this.write(stream, charset, entry.getValue());
+                this.write(stream, charset, "\"");
+            }
+        }
+        this.write(stream, charset, (single ? END_SINGLE : END));
+    }
+    
+    protected void body(OutputStream stream, Charset charset) throws IOException {
+        if (single) return;
+        for (final Writable child : children) child.write(stream, charset);
+    }
+    
+    protected void close(OutputStream stream, Charset charset) throws IOException {
+        if (single) return;
+        this.write(stream, charset, CLOSE + tag + END);
+    }
+    
+    protected final void write(OutputStream stream, Charset charset, String string) throws IOException {
+        stream.write(string.getBytes(charset));
     }
     
     public HTMElement write(Parser parser, String content) {
@@ -128,49 +184,4 @@ public class HTMElement implements Writable {
     public Navigator navigate() {
         return new ElementNavigator(this);
     }
-    
-    @Ignore
-    @Override
-    public void write(OutputStream stream, Charset charset) throws IOException {
-        this.open(stream, charset);
-        this.body(stream, charset);
-        this.close(stream, charset);
-    }
-    
-    protected void open(OutputStream stream, Charset charset) throws IOException {
-        this.write(stream, charset, START + tag);
-        if (classes.size() > 0) {
-            this.write(stream, charset, " ");
-            this.write(stream, charset, "class=\"");
-            for (final String thing : classes) {
-                this.write(stream, charset, thing + ' ');
-            }
-            this.write(stream, charset, "\"");
-        }
-        if (properties.size() > 0) {
-            for (Map.Entry<String, String> entry : properties.entrySet()) {
-                this.write(stream, charset, " ");
-                this.write(stream, charset, entry.getKey());
-                this.write(stream, charset, "=\"");
-                this.write(stream, charset, entry.getValue());
-                this.write(stream, charset, "\"");
-            }
-        }
-        this.write(stream, charset, (single ? END_SINGLE : END));
-    }
-    
-    protected void body(OutputStream stream, Charset charset) throws IOException {
-        if (single) return;
-        for (final Writable child : children) child.write(stream, charset);
-    }
-    
-    protected void close(OutputStream stream, Charset charset) throws IOException {
-        if (single) return;
-        this.write(stream, charset, CLOSE + tag + END);
-    }
-    
-    protected final void write(OutputStream stream, Charset charset, String string) throws IOException {
-        stream.write(string.getBytes(charset));
-    }
-    
 }

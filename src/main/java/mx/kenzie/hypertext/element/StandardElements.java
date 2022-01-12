@@ -5,9 +5,9 @@ import mx.kenzie.autodoc.api.note.Description;
 @Description("""
     The full set of pre-built `HTML5` elements.
     """)
-public final class StandardElements {
+public interface StandardElements {
     
-    public static final HTMElement
+    HTMElement
         DOCTYPE_HTML = new Doctype("html"),
         HTML = new HTMElement("html").set("lang", "en").finalise(),
         COMMENT = new HTMComment().finalise(),
@@ -15,18 +15,18 @@ public final class StandardElements {
         BODY = new HTMElement("body").finalise(),
     //region head elements
     BASE = new HTMElement("base").single().finalise();
-    public static final LinkElement
+    LinkElement
         LINK = (LinkElement) new LinkElement().finalise();
-    public static final HTMElement
+    HTMElement
         META = new HTMElement("meta").single().finalise(),
         STYLE = new HTMElement("style").finalise(),
         TITLE = new HTMElement("title").finalise();
     //endregion
     //region body elements
-    public static final HREFElement
+    HREFElement
         A = (HREFElement) new HREFElement("a").finalise();
     
-    public static final HTMElement
+    HTMElement
         ABBR = new HTMElement("abbr").finalise(),
         ADDRESS = new HTMElement("address").finalise(),
         AREA = new HTMElement("area").finalise(),
@@ -131,7 +131,4 @@ public final class StandardElements {
         WBR = new HTMElement("wbr").single().finalise();
     //endregion
     
-    private StandardElements() {
-        throw new IllegalStateException();
-    }
 }

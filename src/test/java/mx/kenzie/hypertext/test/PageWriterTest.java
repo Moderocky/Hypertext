@@ -2,6 +2,8 @@ package mx.kenzie.hypertext.test;
 
 import mx.kenzie.hypertext.PageWriter;
 import mx.kenzie.hypertext.content.Parser;
+import mx.kenzie.hypertext.element.HTMElement;
+import mx.kenzie.hypertext.element.MultiElement;
 import org.junit.Test;
 
 import static mx.kenzie.hypertext.element.StandardElements.*;
@@ -96,6 +98,35 @@ public class PageWriterTest {
             );
         }
         assert expected.equals(builder.toString());
+    }
+    
+    @Test
+    public void multiElements() {
+        final StringBuilder builder = new StringBuilder();
+        final HTMElement element = new MultiElement(
+            DIV.classes("first"),
+            DIV.classes("second"),
+            DIV.classes("third")
+        ).finalise();
+        assert element instanceof MultiElement;
+        assert element.child(P.write("hello")).toString()
+            .equals("<div class=\"first \"><div class=\"second \"><div class=\"third \"><p>hello</p></div></div></div>");
+        assert element.classes("bean").toString()
+            .equals("<div class=\"first bean \"><div class=\"second bean \"><div class=\"third bean \"></div></div></div>");
+        try (final PageWriter writer = new PageWriter(builder)) {
+            writer.write(
+                DOCTYPE_HTML,
+                HTML.child(
+                    BODY.child(
+                        element.child(
+                            P
+                        )
+                    )
+                )
+            );
+        }
+        assert builder.toString()
+            .equals("<!DOCTYPE html><html lang=\"en\"><body><div class=\"first \"><div class=\"second \"><div class=\"third \"><p></p></div></div></div></body></html>");
     }
     
 }
