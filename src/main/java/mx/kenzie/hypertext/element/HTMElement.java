@@ -14,7 +14,7 @@ public class HTMElement implements Writable {
     protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     
     protected final String tag;
-    protected final Set<String> classes;
+    protected final Collection<String> classes;
     protected final Map<String, String> properties;
     protected final List<Writable> children;
     protected boolean single;
@@ -22,17 +22,17 @@ public class HTMElement implements Writable {
     
     public HTMElement(String tag) {
         this.tag = tag;
-        this.children = new ArrayList<>();
-        this.classes = new HashSet<>();
-        this.properties = new HashMap<>();
+        this.children = new ArrayList<>(0);
+        this.classes = new ArrayList<>(0);
+        this.properties = new HashMap<>(0);
         this.finalise = false;
     }
     
     public HTMElement(String tag, Writable... children) {
         this.tag = tag;
         this.children = new ArrayList<>(Arrays.asList(children));
-        this.classes = new HashSet<>();
-        this.properties = new HashMap<>();
+        this.classes = new ArrayList<>(0);
+        this.properties = new HashMap<>(0);
         this.finalise = false;
     }
     

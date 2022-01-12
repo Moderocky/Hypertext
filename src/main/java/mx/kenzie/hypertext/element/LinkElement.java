@@ -4,6 +4,10 @@ import mx.kenzie.hypertext.Writable;
 
 public class LinkElement extends HREFElement {
     
+    public LinkElement(String tag, Writable... children) {
+        super(tag, children);
+    }
+    
     public LinkElement(Writable... children) {
         super("link", children);
         this.single = true;
