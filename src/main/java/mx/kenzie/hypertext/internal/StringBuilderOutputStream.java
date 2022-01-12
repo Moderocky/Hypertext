@@ -1,11 +1,13 @@
 package mx.kenzie.hypertext.internal;
 
+import mx.kenzie.autodoc.api.note.Ignore;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+@Ignore
 public class StringBuilderOutputStream extends OutputStream implements AutoCloseable {
     
     private StringBuilder builder;

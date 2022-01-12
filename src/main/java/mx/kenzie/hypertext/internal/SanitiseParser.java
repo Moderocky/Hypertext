@@ -1,7 +1,9 @@
 package mx.kenzie.hypertext.internal;
 
+import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.content.Parser;
 
+@Ignore
 public class SanitiseParser implements Parser {
     @Override
     public String parse(String string) {
