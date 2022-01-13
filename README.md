@@ -24,7 +24,7 @@ Hypertext is available in Kenzie's repository.
 <dependency>
   <groupId>mx.kenzie</groupId>
   <artifactId>hypertext</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
