@@ -17,6 +17,25 @@ import java.nio.charset.Charset;
 @GenerateExample
 public class Page extends HTMElement {
     
+    @Description("""
+        Create a new writable page.
+        The parameter elements will be written at the root of the page.
+        
+        Example input:
+        ```java
+        new Page(
+            HEAD,
+            BODY
+        );
+        ```
+        Example output:
+        ```html
+        <head>
+        </head>
+        <body>
+        </body>
+        ```
+        """)
     @GenerateExample
     public Page(Writable... children) {
         super(null, children);

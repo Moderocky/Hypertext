@@ -184,4 +184,8 @@ public class HTMElement implements Writable {
     public Navigator navigate() {
         return new ElementNavigator(this);
     }
+    
+    public String getTag() {
+        return tag;
+    }
 }
