@@ -9,6 +9,7 @@ interface TargetQualifier {
     
     String toString();
     
+    @Ignore
     class CompiledQualifier implements TargetQualifier {
         final String value;
         
