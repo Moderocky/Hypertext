@@ -4,6 +4,8 @@
 
 A clean, simple and well-structured framework for writing HTML pages in Java.
 
+API documentation is available [here](https://hypertext.kenzie.mx).
+
 Goals:
 1. Use minimal resources when creating and writing pages.
 2. Involve minimal boilerplate and screen-wastage for the user.
@@ -93,3 +95,66 @@ DIV.classes("col", "col-md-8", "col-lg-12")
 ```
 
 Some individual element types may have additional modifier methods.
+
+## Adding CSS Rules
+
+Hypertext supports constructing basic CSS selectors and rules.
+These can either be written into a `STYLE` element in the head, or into a stylesheet using another `PageWriter`. Since Rules are writable elements, they can be written as well as normal HTML.
+
+The simplest way to write CSS rules is using the constructor.
+```java
+HEAD.child( // <head>
+    STYLE.child( // <style>
+        new Rule("p").rule("color", "red"),
+        new Rule("div").rule("border-bottom", "2px solid black")
+    ) // </style>
+) // </head>
+```
+
+```css
+p {
+  color: red;
+}
+div {
+  border-bottom: 2px solid black;
+}
+```
+
+This also supports using the `HTMElement`s directly to select tags.
+```java
+STYLE.child(
+    new Rule(DIV).rule("background", "red")
+)
+```
+
+However, more advanced selector-building methods are also available.
+
+The multi-element selector:
+```java
+STYLE.child(
+    Rule.all(UL, P, DIV, BR)
+)
+```
+
+```css
+ul, p, div, br {
+}
+```
+
+
+Complex attribute selectors:
+```java
+STYLE.child(
+    Rule.of(DIV, ATTRIBUTE_EQUALS.of("name", "hello"))
+)
+```
+
+```css
+div[name=hello] {
+}
+```
+
+Many more types are available, with examples in the documentation.
+
+
+
