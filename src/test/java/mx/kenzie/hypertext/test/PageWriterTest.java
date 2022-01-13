@@ -18,7 +18,7 @@ public class PageWriterTest {
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
-                HTML.child(
+                HTML.set("lang", "en").child(
                     HEAD.child(
                         TITLE.write("My Page")
                     ),
@@ -44,7 +44,7 @@ public class PageWriterTest {
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
-                HTML.child(
+                HTML.set("lang", "en").child(
                     HEAD.child(
                         TITLE.write("Cool Page"),
                         META.set("name", "description").set("content", "My description."),
@@ -76,7 +76,7 @@ public class PageWriterTest {
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
-                HTML.child(
+                HTML.set("lang", "en").child(
                     HEAD.child(
                         TITLE.write("Markdown Parsing")
                     ),
@@ -116,7 +116,7 @@ public class PageWriterTest {
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
-                HTML.child(
+                HTML.set("lang", "en").child(
                     BODY.child(
                         element.child(
                             P

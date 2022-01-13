@@ -26,7 +26,7 @@ Hypertext is available in Kenzie's repository.
 <dependency>
   <groupId>mx.kenzie</groupId>
   <artifactId>hypertext</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
@@ -102,7 +102,7 @@ Hypertext supports constructing basic CSS selectors and rules.
 These can either be written into a `STYLE` element in the head, or into a stylesheet using another `PageWriter`. Since Rules are writable elements, they can be written as well as normal HTML.
 
 The simplest way to write CSS rules is using the constructor.
-```java
+```java 
 HEAD.child( // <head>
     STYLE.child( // <style>
         new Rule("p").rule("color", "red"),
@@ -121,7 +121,7 @@ div {
 ```
 
 This also supports using the `HTMElement`s directly to select tags.
-```java
+```java 
 STYLE.child(
     new Rule(DIV).rule("background", "red")
 )
@@ -130,7 +130,7 @@ STYLE.child(
 However, more advanced selector-building methods are also available.
 
 The multi-element selector:
-```java
+```java 
 STYLE.child(
     Rule.all(UL, P, DIV, BR)
 )
@@ -141,9 +141,8 @@ ul, p, div, br {
 }
 ```
 
-
 Complex attribute selectors:
-```java
+```java 
 STYLE.child(
     Rule.of(DIV, ATTRIBUTE_EQUALS.of("name", "hello"))
 )
@@ -156,5 +155,14 @@ div[name=hello] {
 
 Many more types are available, with examples in the documentation.
 
+## Unwrapping Existing HTML
 
+Existing HTML files can be unwrapped into HTMElements.
+This allows navigating, editing and reconstructing the page.
+
+```java 
+try(final Page page = SourceUnwrapper.forHTML(source)) {
+    // page is available here
+}
+```
 

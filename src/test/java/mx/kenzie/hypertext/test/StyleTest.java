@@ -14,7 +14,7 @@ public class StyleTest {
     public void simple() {
         final HTMElement element = new Page(
             DOCTYPE_HTML,
-            HTML.child(
+            HTML.set("lang", "en").child(
                 HEAD.child(
                     STYLE.child(
                         new Rule("p").rule("color", "red"),
@@ -34,7 +34,7 @@ public class StyleTest {
     public void complex() {
         final HTMElement element = new Page(
             DOCTYPE_HTML,
-            HTML.child(
+            HTML.set("lang", "en").child(
                 HEAD.child(
                     STYLE.child(
                         Rule.of(P, Qualifier.ATTRIBUTE_EQUALS.of("blob", "hello")).rule("color", "blue"),

@@ -1,5 +1,6 @@
 package mx.kenzie.hypertext.element;
 
+import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
@@ -42,14 +43,18 @@ public class HTMElement implements Writable {
     }
     
     public HTMElement set(String key, String value) {
-        if (this.finalise) {
-            final HTMElement element = this.clone();
-            element.properties.put(key, value);
-            return element;
-        } else {
-            this.properties.put(key, value);
-            return this;
-        }
+        final HTMElement element = this.working();
+        element.properties.put(key, value);
+        return element;
+    }
+    
+    @Description("""
+        Obtains a non-final 'working' copy of this element.
+        This may be the element itself, or a [clone](method:clone(0)).
+        """)
+    public HTMElement working() {
+        if (this.finalise) return this.clone();
+        else return this;
     }
     
     @Ignore
@@ -134,26 +139,19 @@ public class HTMElement implements Writable {
     
     public HTMElement child(Writable... children) {
         if (this.single) return this;
-        final List<Writable> list;
-        final HTMElement result;
-        if (this.finalise) list = (result = this.clone()).children;
-        else list = (result = this).children;
+        final HTMElement result = this.working();
+        final List<Writable> list = result.children;
         for (final Writable child : children) {
-            if (child instanceof HTMElement element && element.finalise) list.add(element.clone());
+            if (child instanceof HTMElement element && element.finalise) list.add(element.working());
             else list.add(child);
         }
         return result;
     }
     
     public HTMElement classes(String... classes) {
-        if (this.finalise) {
-            final HTMElement element = this.clone();
-            element.classes.addAll(Arrays.asList(classes));
-            return element;
-        } else {
-            this.classes.addAll(Arrays.asList(classes));
-            return this;
-        }
+        final HTMElement element = this.working();
+        element.classes.addAll(Arrays.asList(classes));
+        return element;
     }
     
     public HTMElement finalise() {
@@ -162,13 +160,9 @@ public class HTMElement implements Writable {
     }
     
     public HTMElement single() {
-        if (this.finalise) {
-            final HTMElement element = this.clone();
-            element.single = true;
-            return element;
-        }
-        this.single = true;
-        return this;
+        final HTMElement element = this.working();
+        element.single = true;
+        return element;
     }
     
     protected List<HTMElement> getAllChildren() {
@@ -179,6 +173,10 @@ public class HTMElement implements Writable {
             list.addAll(element.getAllChildren());
         }
         return list;
+    }
+    
+    public boolean isSingle() {
+        return single;
     }
     
     public Navigator navigate() {

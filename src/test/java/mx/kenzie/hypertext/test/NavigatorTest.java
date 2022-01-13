@@ -12,7 +12,7 @@ public class NavigatorTest {
     public void tagSearch() {
         final Page page = new Page(
             DOCTYPE_HTML,
-            HTML.child(
+            HTML.set("lang", "en").child(
                 HEAD.child(
                     TITLE.write("Cool Page"),
                     META.set("name", "description").set("content", "My description."),

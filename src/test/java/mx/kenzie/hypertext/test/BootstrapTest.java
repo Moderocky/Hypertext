@@ -13,7 +13,7 @@ public class BootstrapTest {
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
-                HTML.child(
+                HTML.set("lang", "en").child(
                     HEAD.child(
                         BOOTSTRAP_CSS,
                         META_VIEWPORT,

@@ -6,7 +6,7 @@
 
     <groupId>mx.kenzie</groupId>
     <artifactId>hypertext</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>Hypertext</name>
     <description>A webpage-building library for Java applications.</description>
 
