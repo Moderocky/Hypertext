@@ -6,13 +6,14 @@ import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.*;
 
-public class HTMElement implements Writable {
+public class HTMElement implements Iterable<Writable>, Writable {
     protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     
     protected final String tag;
@@ -93,14 +94,7 @@ public class HTMElement implements Writable {
     
     protected void open(OutputStream stream, Charset charset) throws IOException {
         this.write(stream, charset, START + tag);
-        if (classes.size() > 0) {
-            this.write(stream, charset, " ");
-            this.write(stream, charset, "class=\"");
-            for (final String thing : classes) {
-                this.write(stream, charset, thing + ' ');
-            }
-            this.write(stream, charset, "\"");
-        }
+        final Map<String, String> properties = this.getEffectiveProperties();
         if (properties.size() > 0) {
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 this.write(stream, charset, " ");
@@ -125,6 +119,13 @@ public class HTMElement implements Writable {
     
     protected final void write(OutputStream stream, Charset charset, String string) throws IOException {
         stream.write(string.getBytes(charset));
+    }
+    
+    protected Map<String, String> getEffectiveProperties() {
+        final Map<String, String> map = new HashMap<>(properties.size() + 2);
+        map.putAll(properties);
+        if (classes.size() > 0) map.put("class", String.join(" ", classes));
+        return map;
     }
     
     public HTMElement write(Parser parser, String content) {
@@ -185,5 +186,11 @@ public class HTMElement implements Writable {
     
     public String getTag() {
         return tag;
+    }
+    
+    @NotNull
+    @Override
+    public Iterator<Writable> iterator() {
+        return children.iterator();
     }
 }

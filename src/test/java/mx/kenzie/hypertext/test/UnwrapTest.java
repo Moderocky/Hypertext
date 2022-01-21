@@ -66,7 +66,7 @@ public class UnwrapTest {
             """;
         final Page page = new HTMElementUnwrapper(test).unwrap();
         assert page.toString()
-            .equals("<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><meta name=\"keywords\" content=\"some, words\" /><head></head><body><p class=\"card-text text-danger \">Beans<p></p><body></body><html></html></p></body></head></html>");
+            .equals("<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><meta name=\"keywords\" content=\"some, words\" /><head></head><body><p class=\"card-text text-danger\">Beans<p></p><body></body><html></html></p></body></head></html>");
         assert page.navigate().tag("p").found();
         assert page.navigate().tag("p").classes("card-text").found();
         assert page.navigate().search("name", "keywords").found();

@@ -38,9 +38,11 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
         this.stream = stream;
         this.reader = new BufferedReader(new InputStreamReader(stream, charset));
     }
+    
     public HTMElementUnwrapper(InputStream stream) {
         this(STANDARD_ELEMENTS, stream, Charset.defaultCharset());
     }
+    
     public HTMElementUnwrapper(InputStream stream, Charset charset) {
         this(STANDARD_ELEMENTS, stream, charset);
     }

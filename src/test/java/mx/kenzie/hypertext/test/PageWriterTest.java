@@ -13,7 +13,7 @@ public class PageWriterTest {
     @Test
     public void simple() {
         final String expected = """
-            <!DOCTYPE html><html lang="en"><head><title>My Page</title></head><body><div class="col-md-8 col-lg-4 "><p>hello! :)</p></div><div><p>goodbye! :)</p></div></body></html>""";
+            <!DOCTYPE html><html lang="en"><head><title>My Page</title></head><body><div class="col-md-8 col-lg-4"><p>hello! :)</p></div><div><p>goodbye! :)</p></div></body></html>""";
         final StringBuilder builder = new StringBuilder();
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
@@ -110,9 +110,9 @@ public class PageWriterTest {
         ).finalise();
         assert element instanceof MultiElement;
         assert element.child(P.write("hello")).toString()
-            .equals("<div class=\"first \"><div class=\"second \"><div class=\"third \"><p>hello</p></div></div></div>");
+            .equals("<div class=\"first\"><div class=\"second\"><div class=\"third\"><p>hello</p></div></div></div>");
         assert element.classes("bean").toString()
-            .equals("<div class=\"first bean \"><div class=\"second bean \"><div class=\"third bean \"></div></div></div>");
+            .equals("<div class=\"first bean\"><div class=\"second bean\"><div class=\"third bean\"></div></div></div>");
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
@@ -126,7 +126,7 @@ public class PageWriterTest {
             );
         }
         assert builder.toString()
-            .equals("<!DOCTYPE html><html lang=\"en\"><body><div class=\"first \"><div class=\"second \"><div class=\"third \"><p></p></div></div></div></body></html>");
+            .equals("<!DOCTYPE html><html lang=\"en\"><body><div class=\"first\"><div class=\"second\"><div class=\"third\"><p></p></div></div></div></body></html>");
     }
     
 }

@@ -161,7 +161,7 @@ Existing HTML files can be unwrapped into HTMElements.
 This allows navigating, editing and reconstructing the page.
 
 ```java 
-try(final Page page = SourceUnwrapper.forHTML(source)) {
+try (final Page page = SourceUnwrapper.forHTML(source)) {
     // page is available here
 }
 ```

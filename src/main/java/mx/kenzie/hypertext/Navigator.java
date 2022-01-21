@@ -2,7 +2,10 @@ package mx.kenzie.hypertext;
 
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.hypertext.element.HTMElement;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 @Description("""
@@ -15,7 +18,7 @@ import java.util.List;
     If another search function is used, the existing query will be narrowed down.
     
     """)
-public abstract class Navigator implements AutoCloseable {
+public abstract class Navigator implements Iterable<HTMElement>, AutoCloseable {
     
     protected final HTMElement element;
     protected List<HTMElement> found;
@@ -68,4 +71,12 @@ public abstract class Navigator implements AutoCloseable {
     public void close() {
         this.found = null;
     }
+    
+    @NotNull
+    @Override
+    public Iterator<HTMElement> iterator() {
+        if (found != null) return found.iterator();
+        return Collections.emptyIterator();
+    }
+    
 }
