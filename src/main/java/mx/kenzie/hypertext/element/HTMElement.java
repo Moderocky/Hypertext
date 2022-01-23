@@ -188,6 +188,14 @@ public class HTMElement implements Iterable<Writable>, Writable {
         return tag;
     }
     
+    public Map<String, String> getProperties() {
+        return new HashMap<>(properties);
+    }
+    
+    public List<String> getClasses() {
+        return new ArrayList<>(classes);
+    }
+    
     @NotNull
     @Override
     public Iterator<Writable> iterator() {

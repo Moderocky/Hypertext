@@ -6,6 +6,7 @@ import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.element.HTMElement;
+import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -68,6 +69,35 @@ public class Rule implements Writable {
                 this.selectors.add(selector.toString());
             }
         }
+    }
+    
+    @Description("""
+        Writes an exact selector for the tag, properties and classes of this element.
+        """)
+    @Example("""
+        Rule.exact(DIV
+            .classes("bean")
+            .set("blob", "hello")
+        )
+        """)
+    @Example(language = "css", value = """
+        div[blob=hello].bean {
+        }
+        """)
+    public static Rule exact(HTMElement element) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(element.getTag());
+        for (final Map.Entry<String, String> entry : element.getProperties().entrySet()) {
+            builder.append('[');
+            builder.append(entry.getKey());
+            builder.append('=');
+            builder.append(entry.getValue());
+            builder.append(']');
+        }
+        for (final String string : element.getClasses()) {
+            builder.append('.').append(string);
+        }
+        return new Rule(builder.toString());
     }
     
     @Description("""
@@ -187,6 +217,36 @@ public class Rule implements Writable {
         return new Rule("*");
     }
     
+    @Override
+    public String toString() {
+        final StringBuilderOutputStream stream = new StringBuilderOutputStream();
+        try {
+            this.write(stream, Charset.defaultCharset());
+        } catch (IOException e) {
+            return "Rule[" + selectors + "]";
+        }
+        return stream.toString();
+    }
+    
+    @Ignore
+    @Override
+    public void write(OutputStream stream, Charset charset) throws IOException {
+        this.write(stream, charset, String.join(" ", selectors));
+        this.write(stream, charset, " {");
+        for (final Map.Entry<String, String> entry : rules.entrySet()) {
+            this.write(stream, charset, entry.getKey());
+            this.write(stream, charset, ": ");
+            this.write(stream, charset, entry.getValue());
+            this.write(stream, charset, ";");
+        }
+        this.write(stream, charset, "}");
+    }
+    
+    @Ignore
+    protected final void write(OutputStream stream, Charset charset, String string) throws IOException {
+        stream.write(string.getBytes(charset));
+    }
+    
     @Description("""
         Adds a new rule to the block with the `!important` tag.
         """)
@@ -213,26 +273,6 @@ public class Rule implements Writable {
     public Rule rule(String key, String value) {
         this.rules.put(key, value);
         return this;
-    }
-    
-    @Ignore
-    @Override
-    public void write(OutputStream stream, Charset charset) throws IOException {
-        this.write(stream, charset, String.join(" ", selectors));
-        this.write(stream, charset, " {");
-        for (final Map.Entry<String, String> entry : rules.entrySet()) {
-            this.write(stream, charset, entry.getKey());
-            this.write(stream, charset, ": ");
-            this.write(stream, charset, entry.getValue());
-            this.write(stream, charset, ";");
-        }
-        this.write(stream, charset, "}");
-        
-    }
-    
-    @Ignore
-    protected final void write(OutputStream stream, Charset charset, String string) throws IOException {
-        stream.write(string.getBytes(charset));
     }
     
 }
