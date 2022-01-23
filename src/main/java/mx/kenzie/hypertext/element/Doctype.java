@@ -2,6 +2,7 @@ package mx.kenzie.hypertext.element;
 
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.hypertext.Writable;
+import mx.kenzie.hypertext.internal.FormattedOutputStream;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,5 +21,7 @@ public final class Doctype extends HTMElement implements Writable {
     @Override
     public void write(OutputStream stream, Charset charset) throws IOException {
         this.write(stream, charset, START + tag + END);
+        if (stream instanceof FormattedOutputStream format)
+            format.writeLine();
     }
 }

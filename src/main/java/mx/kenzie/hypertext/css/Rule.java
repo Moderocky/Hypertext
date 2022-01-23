@@ -6,6 +6,7 @@ import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.element.HTMElement;
+import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 
 import java.io.IOException;
@@ -233,11 +234,19 @@ public class Rule implements Writable {
     public void write(OutputStream stream, Charset charset) throws IOException {
         this.write(stream, charset, String.join(" ", selectors));
         this.write(stream, charset, " {");
+        if (stream instanceof FormattedOutputStream format) {
+            format.increment();
+        }
         for (final Map.Entry<String, String> entry : rules.entrySet()) {
+            if (stream instanceof FormattedOutputStream format) format.writeLine();
             this.write(stream, charset, entry.getKey());
             this.write(stream, charset, ": ");
             this.write(stream, charset, entry.getValue());
             this.write(stream, charset, ";");
+        }
+        if (stream instanceof FormattedOutputStream format) {
+            format.decrement();
+            format.writeLine();
         }
         this.write(stream, charset, "}");
     }

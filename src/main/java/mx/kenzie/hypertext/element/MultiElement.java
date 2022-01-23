@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
     
     Any children appended will be put into the innermost element.
     """)
-public class MultiElement extends HTMElement {
+public class MultiElement extends HTMElement implements Cloneable {
     
     protected final HTMElement centre;
     protected final HTMElement[] nested;
@@ -41,6 +41,7 @@ public class MultiElement extends HTMElement {
     }
     
     @Override
+    @SuppressWarnings({"RedundantSuppression", "CloneDoesntCallSuperClone", "CloneDoesntDeclareCloneNotSupportedException"})
     protected MultiElement clone() {
         final HTMElement[] elements = new HTMElement[nested.length];
         for (int i = 0; i < nested.length; i++) {

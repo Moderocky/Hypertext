@@ -26,7 +26,7 @@ public interface StandardElements {
     //endregion
     //region body elements
     HREFElement
-        A = (HREFElement) new HREFElement("a").finalise();
+        A = (HREFElement) new HREFElement("a").inline().finalise();
     
     HTMElement
         ABBR = new HTMElement("abbr").finalise(),
@@ -34,7 +34,7 @@ public interface StandardElements {
         AREA = new HTMElement("area").finalise(),
         ARTICLE = new HTMElement("article").finalise(),
         ASIDE = new HTMElement("aside").finalise(),
-        B = new HTMElement("b").finalise(),
+        B = new HTMElement("b").inline().finalise(),
         BDI = new HTMElement("bdi").finalise(),
         BDO = new HTMElement("bdo").finalise(),
         BLOCKQUOTE = new HTMElement("blockquote").finalise(),
@@ -73,7 +73,7 @@ public interface StandardElements {
     //endregion
     HEADER = new HTMElement("header").finalise(),
         HR = new HTMElement("hr").single().finalise(),
-        I = new HTMElement("i").finalise(),
+        I = new HTMElement("i").inline().finalise(),
         IFRAME = new HTMElement("iframe").finalise(),
         IMAGE = new HTMElement("img").single().finalise(),
         INPUT = new HTMElement("input").single().finalise(),
@@ -102,7 +102,7 @@ public interface StandardElements {
         RP = new HTMElement("rp").finalise(),
         RT = new HTMElement("rt").finalise(),
         RUBY = new HTMElement("ruby").finalise(),
-        S = new HTMElement("s").finalise(),
+        S = new HTMElement("s").inline().finalise(),
         SAMP = new HTMElement("samp").finalise(),
         SCRIPT = new HTMElement("script").finalise(),
         SECTION = new HTMElement("section").finalise(),

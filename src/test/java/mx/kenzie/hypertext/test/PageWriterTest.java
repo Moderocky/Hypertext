@@ -129,4 +129,38 @@ public class PageWriterTest {
             .equals("<!DOCTYPE html><html lang=\"en\"><body><div class=\"first\"><div class=\"second\"><div class=\"third\"><p></p></div></div></div></body></html>");
     }
     
+    @Test
+    public void formatted() {
+        final String expected = """
+            <!DOCTYPE html>
+            <html lang="en">
+            	<body>
+            		<div></div>
+            		<div>
+            			<p>
+            				hello\s
+            				<b>there</b>
+            			</p>
+            		</div>
+            	</body>
+            </html>""";
+        final StringBuilder builder = new StringBuilder();
+        try (final PageWriter writer = new PageWriter(builder).format("\t")) {
+            writer.write(
+                DOCTYPE_HTML,
+                HTML.set("lang", "en").child(
+                    BODY.child(
+                        DIV,
+                        DIV.child(
+                            P.write("hello ").child(
+                                B.write("there")
+                            )
+                        )
+                    )
+                )
+            );
+        }
+        assert builder.toString().equals(expected);
+    }
+    
 }

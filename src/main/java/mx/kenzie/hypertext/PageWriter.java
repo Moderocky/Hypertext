@@ -2,6 +2,7 @@ package mx.kenzie.hypertext;
 
 import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.Example;
+import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StandardErrorHandler;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 
@@ -48,6 +49,15 @@ public class PageWriter implements AutoCloseable {
         } catch (IOException ex) {
             return null;
         }
+    }
+    
+    @Description("""
+        Switches this writer to pretty-print formatting.
+        The `indent` is the specified unit by which to indent inner elements.
+        """)
+    public PageWriter format(String indent) {
+        this.stream = new FormattedOutputStream(stream, charset, indent.getBytes(charset));
+        return this;
     }
     
     public void write(Writable... writables) {

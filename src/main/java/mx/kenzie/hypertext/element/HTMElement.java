@@ -5,6 +5,7 @@ import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
+import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,14 +15,15 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class HTMElement implements Iterable<Writable>, Writable {
-    protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     
+    protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     protected final String tag;
     protected final Collection<String> classes;
     protected final Map<String, String> properties;
     protected final List<Writable> children;
     protected boolean single;
     protected boolean finalise;
+    protected boolean inline;
     
     public HTMElement(String tag) {
         this.tag = tag;
@@ -39,13 +41,12 @@ public class HTMElement implements Iterable<Writable>, Writable {
         this.finalise = false;
     }
     
-    public HTMElement id(String id) {
-        return this.set("id", id);
-    }
-    
-    public HTMElement set(String key, String value) {
+    @Description("""
+        Sets this element to be written in-line if the writer is formatted.
+        """)
+    public HTMElement inline() {
         final HTMElement element = this.working();
-        element.properties.put(key, value);
+        element.inline = true;
         return element;
     }
     
@@ -59,6 +60,7 @@ public class HTMElement implements Iterable<Writable>, Writable {
     }
     
     @Ignore
+    @SuppressWarnings({"RedundantSuppression", "CloneDoesntCallSuperClone", "CloneDoesntDeclareCloneNotSupportedException"})
     protected HTMElement clone() {
         final HTMElement element = new HTMElement(this.tag);
         return this.clone(element);
@@ -70,6 +72,7 @@ public class HTMElement implements Iterable<Writable>, Writable {
         element.properties.putAll(this.properties);
         element.single = this.single;
         element.finalise = false;
+        element.inline = this.inline;
         return element;
     }
     
@@ -109,7 +112,15 @@ public class HTMElement implements Iterable<Writable>, Writable {
     
     protected void body(OutputStream stream, Charset charset) throws IOException {
         if (single) return;
-        for (final Writable child : children) child.write(stream, charset);
+        if (children.size() > 0) {
+            if (stream instanceof FormattedOutputStream format) format.increment();
+            for (final Writable child : children) {
+                if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
+                child.write(stream, charset);
+            }
+            if (stream instanceof FormattedOutputStream format) format.decrement();
+            if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
+        }
     }
     
     protected void close(OutputStream stream, Charset charset) throws IOException {
@@ -126,6 +137,16 @@ public class HTMElement implements Iterable<Writable>, Writable {
         map.putAll(properties);
         if (classes.size() > 0) map.put("class", String.join(" ", classes));
         return map;
+    }
+    
+    public HTMElement id(String id) {
+        return this.set("id", id);
+    }
+    
+    public HTMElement set(String key, String value) {
+        final HTMElement element = this.working();
+        element.properties.put(key, value);
+        return element;
     }
     
     public HTMElement write(Parser parser, String content) {
