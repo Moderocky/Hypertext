@@ -8,16 +8,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-@Description("""
-    A query system for navigating an element tree structure.
-    
-    This is capable of filtering elements according to multiple factors.
-    The navigator must be reset between uses.
-    
-    When a search function is used, the navigator creates a query of matching elements.
-    If another search function is used, the existing query will be narrowed down.
-    
-    """)
+/**
+ * A query system for navigating an element tree structure.
+ *
+ * This is capable of filtering elements according to multiple factors.
+ * The navigator must be reset between uses.
+ *
+ * When a search function is used, the navigator creates a query of matching elements.
+ * If another search function is used, the existing query will be narrowed down.
+ */
 public abstract class Navigator implements Iterable<HTMElement>, AutoCloseable {
     
     protected final HTMElement element;
