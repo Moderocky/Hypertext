@@ -2,6 +2,7 @@ package mx.kenzie.hypertext.internal;
 
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.SourceUnwrapper;
+import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.element.HTMElement;
 import mx.kenzie.hypertext.element.Page;
 import mx.kenzie.hypertext.element.StandardElements;
@@ -95,6 +96,8 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                             final HTMElement single = this.getOrCreate(tag.toString().trim());
                             this.handleAttributes(single, attributes);
                             current.get(0).child(single);
+                            writing = 0;
+                            singlet = false;
                         } else {
                             final String finished = tag.toString().trim();
                             if (!finished.equals(current.get(0).getTag())) {
@@ -109,6 +112,10 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                         current.add(0, element);
                         if (shouldBeSingle(current.get(0).getTag()))
                             current.remove(0);
+                        if (element.getTag().equalsIgnoreCase("style")) {
+                            final Page css = new CSSElementUnwrapper(reader, true).unwrap();
+                            for (final Writable writable : css) element.child(writable);
+                        }
                     }
                     building = false;
                     tag = null;
@@ -135,7 +142,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                     if (brackets > 0 && writing == 2) attribute.append(c);
                     else if (brackets == 0) contents.append(c);
                     else {
-                        close = true;
+                        this.close = true;
                         if (tag != null && !tag.isEmpty()) singlet = true;
                     }
                 }

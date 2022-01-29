@@ -4,6 +4,7 @@ import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
+import mx.kenzie.hypertext.internal.FormattedOutputStream;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,4 +48,16 @@ public class Page extends HTMElement {
         this.body(stream, charset);
     }
     
+    @Ignore
+    @Override
+    protected void body(OutputStream stream, Charset charset) throws IOException {
+        if (single) return;
+        if (children.size() > 0) {
+            for (final Writable child : children) {
+                if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
+                child.write(stream, charset);
+            }
+            if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
+        }
+    }
 }

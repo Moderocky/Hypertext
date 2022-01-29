@@ -10,10 +10,10 @@ import java.util.List;
 
 /**
  * A query system for navigating an element tree structure.
- *
+ * <p>
  * This is capable of filtering elements according to multiple factors.
  * The navigator must be reset between uses.
- *
+ * <p>
  * When a search function is used, the navigator creates a query of matching elements.
  * If another search function is used, the existing query will be narrowed down.
  */
