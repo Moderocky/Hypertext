@@ -20,14 +20,14 @@ public interface Writable {
         this.write(stream, Charset.defaultCharset());
     }
     
-    @Description("""
-        Write the element's content to the stream, using the given charset if necessary.
-        
-        This can be used for String to byte array conversion:
-        ```java
-        stream.write(string.getBytes(charset));
-        ```
-        """)
+    /**
+     * Write the element's content to the stream, using the given charset if necessary.
+     *
+     * This can be used for String to byte array conversion:
+     * ```java
+     * stream.write(string.getBytes(charset));
+     * ```
+     */
     @GenerateExample
     void write(OutputStream stream, Charset charset) throws IOException;
     
