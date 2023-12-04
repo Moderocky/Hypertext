@@ -5,6 +5,7 @@ import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.autodoc.api.note.Ignore;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
@@ -22,7 +23,7 @@ public interface Writable {
     
     /**
      * Write the element's content to the stream, using the given charset if necessary.
-     *
+     * <p>
      * This can be used for String to byte array conversion:
      * ```java
      * stream.write(string.getBytes(charset));
@@ -30,5 +31,18 @@ public interface Writable {
      */
     @GenerateExample
     void write(OutputStream stream, Charset charset) throws IOException;
+    
+    static Writable of(InputStream stream) {
+        return new InputWritable(stream);
+    }
+    
+}
+
+record InputWritable(InputStream stream) implements Writable {
+    
+    @Override
+    public void write(OutputStream stream, Charset charset) throws IOException {
+        this.stream.transferTo(stream);
+    }
     
 }
