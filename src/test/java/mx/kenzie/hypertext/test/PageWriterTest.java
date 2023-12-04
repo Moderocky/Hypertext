@@ -33,7 +33,7 @@ public class PageWriterTest {
                 )
             );
         }
-        assert expected.equals(builder.toString());
+        assert expected.contentEquals(builder);
     }
     
     @Test
@@ -59,7 +59,7 @@ public class PageWriterTest {
                 )
             );
         }
-        assert expected.equals(builder.toString());
+        assert expected.contentEquals(builder);
     }
     
     @Test
@@ -97,7 +97,7 @@ public class PageWriterTest {
                 )
             );
         }
-        assert expected.equals(builder.toString());
+        assert expected.contentEquals(builder);
     }
     
     @Test
@@ -112,7 +112,8 @@ public class PageWriterTest {
         assert element.child(P.write("hello")).toString()
             .equals("<div class=\"first\"><div class=\"second\"><div class=\"third\"><p>hello</p></div></div></div>");
         assert element.classes("bean").toString()
-            .equals("<div class=\"first bean\"><div class=\"second bean\"><div class=\"third bean\"></div></div></div>");
+            .equals(
+                "<div class=\"first bean\"><div class=\"second bean\"><div class=\"third bean\"></div></div></div>");
         try (final PageWriter writer = new PageWriter(builder)) {
             writer.write(
                 DOCTYPE_HTML,
@@ -126,7 +127,8 @@ public class PageWriterTest {
             );
         }
         assert builder.toString()
-            .equals("<!DOCTYPE html><html lang=\"en\"><body><div class=\"first\"><div class=\"second\"><div class=\"third\"><p></p></div></div></div></body></html>");
+            .equals(
+                "<!DOCTYPE html><html lang=\"en\"><body><div class=\"first\"><div class=\"second\"><div class=\"third\"><p></p></div></div></div></body></html>");
     }
     
     @Test

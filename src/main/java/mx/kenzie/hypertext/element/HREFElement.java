@@ -1,9 +1,7 @@
 package mx.kenzie.hypertext.element;
 
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
 
-@Ignore
 public class HREFElement extends HTMElement {
     
     public HREFElement(String tag) {
@@ -22,4 +20,5 @@ public class HREFElement extends HTMElement {
     protected HREFElement clone() {
         return super.clone(new HREFElement(tag));
     }
+    
 }

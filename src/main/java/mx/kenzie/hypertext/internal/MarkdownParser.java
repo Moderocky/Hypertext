@@ -1,11 +1,9 @@
 package mx.kenzie.hypertext.internal;
 
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.content.Parser;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.html.HtmlRenderer;
 
-@Ignore
 public class MarkdownParser implements Parser {
     
     protected Object parser;
@@ -15,7 +13,8 @@ public class MarkdownParser implements Parser {
         try { // avoid CNF
             this.parser = org.commonmark.parser.Parser.builder().build();
             this.renderer = HtmlRenderer.builder().build();
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
     }
     
     @Override

@@ -28,7 +28,8 @@ public class StyleTest {
             )
         );
         assert element.toString()
-            .equals("<!DOCTYPE html><html lang=\"en\"><head><style>p {color: red;}p {border-bottom: 2px solid black;}</style></head><body><p>hello</p></body></html>");
+            .equals(
+                "<!DOCTYPE html><html lang=\"en\"><head><style>p {color: red;}p {border-bottom: 2px solid black;}</style></head><body><p>hello</p></body></html>");
     }
     
     @Test
@@ -51,7 +52,8 @@ public class StyleTest {
             )
         );
         assert element.toString()
-            .equals("<!DOCTYPE html><html lang=\"en\"><head><style>p[blob=hello] {color: blue;}div {border-bottom: 2px solid black;}</style></head><body><div><p blob=\"hello\">hello</p><p>hello</p></div></body></html>");
+            .equals(
+                "<!DOCTYPE html><html lang=\"en\"><head><style>p[blob=hello] {color: blue;}div {border-bottom: 2px solid black;}</style></head><body><div><p blob=\"hello\">hello</p><p>hello</p></div></body></html>");
     }
     
     @Test

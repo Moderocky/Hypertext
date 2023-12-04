@@ -1,18 +1,11 @@
 package mx.kenzie.hypertext.element;
 
-import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.hypertext.Writable;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-@Description("""
-    A special handler for multiple combined or nested elements.
-    This will treat the collection as a single element, applying changes to all of them.
-    
-    Any children appended will be put into the innermost element.
-    """)
 public class MultiElement extends HTMElement implements Cloneable {
     
     protected final HTMElement centre;
@@ -74,4 +67,5 @@ public class MultiElement extends HTMElement implements Cloneable {
         for (final HTMElement element : target.nested) element.classes(classes);
         return target;
     }
+    
 }

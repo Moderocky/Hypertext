@@ -1,19 +1,10 @@
 package mx.kenzie.hypertext.bootstrap;
 
-import mx.kenzie.autodoc.api.note.Description;
-import mx.kenzie.autodoc.api.note.GenerateExample;
 import mx.kenzie.hypertext.element.HTMElement;
 import mx.kenzie.hypertext.element.LinkElement;
 import mx.kenzie.hypertext.element.MultiElement;
 import mx.kenzie.hypertext.element.StandardElements;
 
-@Description("""
-    A set of special helper elements for Bootstrap 5.1.
-    
-    As Bootstrap is such a widely-used library, this is designed to
-    make integrating it easier, by reducing common element boilerplate.
-    """)
-@GenerateExample
 public interface BootstrapElements extends StandardElements {
     
     HTMElement

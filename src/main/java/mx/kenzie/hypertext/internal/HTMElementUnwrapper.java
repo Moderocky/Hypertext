@@ -1,6 +1,5 @@
 package mx.kenzie.hypertext.internal;
 
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.SourceUnwrapper;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.element.HTMElement;
@@ -15,7 +14,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
 public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable {
     
     private static final HTMElement[] STANDARD_ELEMENTS = getElements(StandardElements.class);
@@ -55,7 +53,8 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
             if (!HTMElement.class.isAssignableFrom(field.getType())) continue;
             try {
                 list.add(((HTMElement) field.get(null)));
-            } catch (IllegalAccessException e) {}
+            } catch (IllegalAccessException e) {
+            }
         }
         return list.toArray(new HTMElement[0]);
     }
@@ -67,10 +66,9 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
         current.add(page);
         while ((i = reader.read()) != -1) {
             final char c = (char) i;
-            letter:
             switch (c) {
                 case '<' -> {
-                    if (writing == 2) break letter; // name="<>" is ok
+                    if (writing == 2) break; // name="<>" is ok
                     check:
                     if (!contents.isEmpty()) { // write trailing contents: <p> blob <...
                         final String string = contents.toString();
@@ -87,7 +85,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                     attributes.clear();
                 }
                 case '>' -> {
-                    if (writing == 2) break letter; // name="<>" is ok
+                    if (writing == 2) break; // name="<>" is ok
                     brackets--;
                     if (brackets != 0)
                         throw new HTMLFormatError("Unmatched opening and closing `<>` brackets in tag: " + tag);
@@ -203,4 +201,5 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
     public void close() throws IOException {
         this.stream.close();
     }
+    
 }

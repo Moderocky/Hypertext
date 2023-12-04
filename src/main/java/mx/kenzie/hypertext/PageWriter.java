@@ -1,7 +1,5 @@
 package mx.kenzie.hypertext;
 
-import mx.kenzie.autodoc.api.note.Description;
-import mx.kenzie.autodoc.api.note.Example;
 import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StandardErrorHandler;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
@@ -12,14 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-@Description("""
-    A simple utility to write pages while handling all of the streams, charsets and exceptions that are required.
-    """)
-@Example("""
-    try (final PageWriter writer = new PageWriter(file)) { // auto-handles streams
-        writer.write(page);
-    }
-    """)
 public class PageWriter implements AutoCloseable {
     
     public Charset charset = Charset.defaultCharset();
@@ -51,10 +41,6 @@ public class PageWriter implements AutoCloseable {
         }
     }
     
-    @Description("""
-        Switches this writer to pretty-print formatting.
-        The `indent` is the specified unit by which to indent inner elements.
-        """)
     public PageWriter format(String indent) {
         this.stream = new FormattedOutputStream(stream, charset, indent.getBytes(charset));
         return this;

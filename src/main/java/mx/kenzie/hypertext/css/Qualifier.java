@@ -1,12 +1,5 @@
 package mx.kenzie.hypertext.css;
 
-import mx.kenzie.autodoc.api.note.Description;
-import mx.kenzie.autodoc.api.note.Ignore;
-
-@Description("""
-    A set of qualifiers.
-    
-    """)
 public enum Qualifier implements TargetQualifier {
     ACTIVE(":active"),
     AFTER("::after"),
@@ -32,10 +25,8 @@ public enum Qualifier implements TargetQualifier {
     ATTRIBUTE_ENDS("[", "$=", "]"),
     ATTRIBUTE_SUB("[", "*=", "]");
     
-    @Ignore
     final String target, first, last, joiner;
     
-    @Ignore
     Qualifier(String target) {
         this.target = target;
         this.first = null;
@@ -43,7 +34,6 @@ public enum Qualifier implements TargetQualifier {
         this.joiner = null;
     }
     
-    @Ignore
     Qualifier(String first, String last) {
         this.target = null;
         this.first = first;
@@ -51,7 +41,6 @@ public enum Qualifier implements TargetQualifier {
         this.joiner = "";
     }
     
-    @Ignore
     Qualifier(String first, String joiner, String last) {
         this.target = null;
         this.first = first;
@@ -59,18 +48,12 @@ public enum Qualifier implements TargetQualifier {
         this.joiner = joiner;
     }
     
-    @Ignore
     @Override
     public String toString() {
         if (target == null) return first + null + last;
         return target;
     }
     
-    @Description("""
-        Creates a complex qualifier from this template.
-        
-        This is used with the `ATTRIBUTE...` qualifiers.
-        """)
     @Override
     public TargetQualifier of(String... value) {
         if (target != null) return this;

@@ -46,7 +46,8 @@ public class UnwrapTest {
             """;
         final Page page = new HTMElementUnwrapper(test).unwrap();
         assert page.toString()
-            .equals("<html><head><title>hello there!</title></head><body><p>What's your name ?</p><p>Hello <a> there!\n        </a></p></body></html>");
+            .equals(
+                "<html><head><title>hello there!</title></head><body><p>What's your name ?</p><p>Hello <a> there!\n        </a></p></body></html>");
         assert page.navigate().tag("a").found();
         assert page.navigate().tag("p").findAll().length == 2;
     }
@@ -67,7 +68,8 @@ public class UnwrapTest {
             """;
         final Page page = new HTMElementUnwrapper(test).unwrap();
         assert page.toString()
-            .equals("<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><meta name=\"keywords\" content=\"some, words\" /></head><body><p class=\"card-text text-danger\">Beans</p></body></html>");
+            .equals(
+                "<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><meta name=\"keywords\" content=\"some, words\" /></head><body><p class=\"card-text text-danger\">Beans</p></body></html>");
         assert page.navigate().tag("p").found();
         assert page.navigate().tag("p").classes("card-text").found();
         assert page.navigate().search("name", "keywords").found();
@@ -87,7 +89,8 @@ public class UnwrapTest {
         final Page page = new CSSElementUnwrapper(test).unwrap();
         System.out.println(page);
         assert page.toString()
-            .equals("h1.thing {border: 0 0 3em 3em;color: red;font-family: 'JetBrains Mono' sans-serif;}#id.thing > p {}");
+            .equals(
+                "h1.thing {border: 0 0 3em 3em;color: red;font-family: 'JetBrains Mono' sans-serif;}#id.thing > p {}");
     }
     
     @Test
@@ -114,7 +117,8 @@ public class UnwrapTest {
             """;
         final Page page = new HTMElementUnwrapper(test).unwrap();
         assert page.toString()
-            .equals("<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><style>h1.thing {color: red;}#id.thing > p {color: blue;border-bottom: 1px solid black;}</style></head><body><p class=\"card-text text-danger\">Beans</p></body></html>");
+            .equals(
+                "<html lang=\"en\"><head><title>hello there!</title><meta name=\"description\" content=\"My description.\" /><style>h1.thing {color: red;}#id.thing > p {color: blue;border-bottom: 1px solid black;}</style></head><body><p class=\"card-text text-danger\">Beans</p></body></html>");
     }
     
 }

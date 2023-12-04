@@ -1,10 +1,5 @@
 package mx.kenzie.hypertext.element;
 
-import mx.kenzie.autodoc.api.note.Description;
-
-@Description("""
-    The full set of pre-built `HTML5` elements.
-    """)
 public interface StandardElements {
     
     HTMElement

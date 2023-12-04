@@ -1,6 +1,5 @@
 package mx.kenzie.hypertext.internal;
 
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.SourceUnwrapper;
 import mx.kenzie.hypertext.css.Rule;
 import mx.kenzie.hypertext.element.Page;
@@ -10,8 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
 public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable {
+    
     protected final InputStream stream;
     protected final BufferedReader reader;
     protected boolean expectClosingTag;
@@ -45,7 +44,6 @@ public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
         read:
         while ((i = reader.read()) != -1) {
             final char c = (char) i;
-            letter:
             switch (c) {
                 case '{':
                     if (!block && !rule) {
@@ -92,4 +90,5 @@ public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
     public void close() throws IOException {
         if (stream != null) this.stream.close();
     }
+    
 }

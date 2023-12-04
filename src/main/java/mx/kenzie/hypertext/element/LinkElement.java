@@ -1,9 +1,7 @@
 package mx.kenzie.hypertext.element;
 
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Writable;
 
-@Ignore
 public class LinkElement extends HREFElement {
     
     public LinkElement(String tag, Writable... children) {
@@ -35,4 +33,5 @@ public class LinkElement extends HREFElement {
     public LinkElement crossOrigin(String origin) {
         return (LinkElement) this.set("crossorigin", origin);
     }
+    
 }

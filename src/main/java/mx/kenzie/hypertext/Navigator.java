@@ -1,6 +1,5 @@
 package mx.kenzie.hypertext;
 
-import mx.kenzie.autodoc.api.note.Description;
 import mx.kenzie.hypertext.element.HTMElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +25,6 @@ public abstract class Navigator implements Iterable<HTMElement>, AutoCloseable {
         this.element = element;
     }
     
-    @Description("Filter the current query by classes.")
     public abstract Navigator classes(String... values);
     
     public Navigator id(String value) {
@@ -54,7 +52,7 @@ public abstract class Navigator implements Iterable<HTMElement>, AutoCloseable {
     }
     
     public boolean found() {
-        return this.found != null && this.found.size() > 0;
+        return this.found != null && !this.found.isEmpty();
     }
     
     public HTMElement[] findAll() {

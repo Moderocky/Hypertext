@@ -1,7 +1,5 @@
 package mx.kenzie.hypertext.element;
 
-import mx.kenzie.autodoc.api.note.Description;
-import mx.kenzie.autodoc.api.note.Ignore;
 import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
@@ -41,25 +39,17 @@ public class HTMElement implements Iterable<Writable>, Writable {
         this.finalise = false;
     }
     
-    @Description("""
-        Sets this element to be written in-line if the writer is formatted.
-        """)
     public HTMElement inline() {
         final HTMElement element = this.working();
         element.inline = true;
         return element;
     }
     
-    @Description("""
-        Obtains a non-final 'working' copy of this element.
-        This may be the element itself, or a [clone](method:clone(0)).
-        """)
     public HTMElement working() {
         if (this.finalise) return this.clone();
         else return this;
     }
     
-    @Ignore
     @SuppressWarnings({"RedundantSuppression", "CloneDoesntCallSuperClone", "CloneDoesntDeclareCloneNotSupportedException"})
     protected HTMElement clone() {
         final HTMElement element = new HTMElement(this.tag);
@@ -87,7 +77,6 @@ public class HTMElement implements Iterable<Writable>, Writable {
         return stream.toString();
     }
     
-    @Ignore
     @Override
     public void write(OutputStream stream, Charset charset) throws IOException {
         this.open(stream, charset);
@@ -222,4 +211,5 @@ public class HTMElement implements Iterable<Writable>, Writable {
     public Iterator<Writable> iterator() {
         return children.iterator();
     }
+    
 }
