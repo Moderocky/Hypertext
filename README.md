@@ -22,11 +22,30 @@ Hypertext is available in Kenzie's repository.
 </repository>
 ```
 
+Common
 ```xml
 <dependency>
   <groupId>mx.kenzie</groupId>
-  <artifactId>hypertext</artifactId>
-  <version>1.0.4</version>
+  <artifactId>hypertext-common</artifactId>
+  <version>1.1.0</version>
+</dependency>
+```
+
+Bootstrap 4 helper elements
+```xml
+<dependency>
+<groupId>mx.kenzie</groupId>
+<artifactId>hypertext-bootstrap</artifactId>
+<version>1.1.0</version>
+</dependency>
+```
+
+Markdown parser element (commonmark)
+```xml
+<dependency>
+<groupId>mx.kenzie</groupId>
+<artifactId>hypertext-markdown</artifactId>
+<version>1.1.0</version>
 </dependency>
 ```
 

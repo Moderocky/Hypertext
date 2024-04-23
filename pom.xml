@@ -6,19 +6,21 @@
 
     <groupId>mx.kenzie</groupId>
     <artifactId>hypertext</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.0</version>
+    <packaging>pom</packaging>
     <name>Hypertext</name>
     <description>A webpage-building library for Java applications.</description>
+    <modules>
+        <module>Common</module>
+        <module>Bootstrap</module>
+        <module>Markdown</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <build>
-        <finalName>Hypertext</finalName>
-    </build>
 
     <distributionManagement>
         <repository>
@@ -35,18 +37,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.commonmark</groupId>
-            <artifactId>commonmark</artifactId>
-            <version>0.18.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>9.2</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
