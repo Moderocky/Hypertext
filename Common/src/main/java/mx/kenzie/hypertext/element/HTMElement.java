@@ -151,7 +151,7 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
     }
 
     public HTMElement child(Writable... children) {
-        if (this.single) return this;
+        if (this.single || children.length == 0) return this;
         final HTMElement result = this.working();
         final List<Writable> list = result.children;
         for (final Writable child : children) {
