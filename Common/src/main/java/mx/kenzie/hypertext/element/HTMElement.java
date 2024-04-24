@@ -6,13 +6,14 @@ import mx.kenzie.hypertext.content.Parser;
 import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 import org.jetbrains.annotations.NotNull;
+import org.valross.constantine.Constantive;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.*;
 
-public class HTMElement implements Iterable<Writable>, Writable {
+public class HTMElement implements Iterable<Writable>, Writable, Constantive {
 
     protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     protected final String tag;
@@ -62,7 +63,7 @@ public class HTMElement implements Iterable<Writable>, Writable {
         final StringBuilderOutputStream stream = new StringBuilderOutputStream();
         try {
             this.write(stream, Charset.defaultCharset());
-        } catch (IOException e) {
+        } catch (IOException ex) {
             return "HTMElement[" + tag + "]";
         }
         return stream.toString();
@@ -88,7 +89,7 @@ public class HTMElement implements Iterable<Writable>, Writable {
     protected void open(OutputStream stream, Charset charset) throws IOException {
         this.write(stream, charset, START + tag);
         final Map<String, String> properties = this.getEffectiveProperties();
-        if (properties.size() > 0) {
+        if (!properties.isEmpty()) {
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 this.write(stream, charset, " ");
                 this.write(stream, charset, entry.getKey());
@@ -211,6 +212,11 @@ public class HTMElement implements Iterable<Writable>, Writable {
     @Override
     public Iterator<Writable> iterator() {
         return children.iterator();
+    }
+
+    @Override
+    public ConstantElement constant() {
+        return new ConstantElement(this.toString());
     }
 
 }
