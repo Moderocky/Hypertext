@@ -86,7 +86,7 @@ public interface StandardElements {
         OPTGROUP = new HTMElement("optgroup").finalise(),
         OPTION = new HTMElement("option").finalise(),
         OUTPUT = new HTMElement("output").finalise(),
-        P = new HTMElement("p").finalise(),
+        P = new HTMElement("p").inline().finalise(),
         PARAM = new HTMElement("param").single().finalise(),
         PICTURE = new HTMElement("picture").finalise(),
         PRE = new HTMElement("pre").finalise(),

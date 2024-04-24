@@ -1,7 +1,6 @@
 package mx.kenzie.hypertext.test;
 
 import mx.kenzie.hypertext.PageWriter;
-import mx.kenzie.hypertext.content.Parser;
 import mx.kenzie.hypertext.element.HTMElement;
 import mx.kenzie.hypertext.element.MultiElement;
 import org.junit.Test;
@@ -104,10 +103,7 @@ public class PageWriterTest {
             	<body>
             		<div></div>
             		<div>
-            			<p>
-            				hello\s
-            				<b>there</b>
-            			</p>
+            			<p>hello <b>there</b></p>
             		</div>
             	</body>
             </html>""";
@@ -120,14 +116,9 @@ public class PageWriterTest {
                         DIV,
                         DIV.child(
                             P.write("hello ").child(
-                                B.write("there")
-                                                   )
-                                 )
-                              )
-                                            )
-                        );
+                                B.write("there"))))));
         }
-        assert builder.toString().equals(expected);
+        assert builder.toString().equals(expected) : builder;
     }
 
 }
