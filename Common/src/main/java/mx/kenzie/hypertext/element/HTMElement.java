@@ -41,8 +41,16 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
     }
 
     public HTMElement inline() {
+        if (inline) return this;
         final HTMElement element = this.working();
         element.inline = true;
+        return element;
+    }
+
+    public HTMElement block() {
+        if (!inline) return this;
+        final HTMElement element = this.working();
+        element.inline = false;
         return element;
     }
 
