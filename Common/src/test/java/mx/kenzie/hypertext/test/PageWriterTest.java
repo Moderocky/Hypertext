@@ -115,8 +115,7 @@ public class PageWriterTest {
                     BODY.child(
                         DIV,
                         DIV.child(
-                            P.write("hello ").child(
-                                B.write("there"))))));
+                            P.write("hello ").child(B.write("there"))))));
         }
         assert builder.toString().equals(expected) : builder;
     }

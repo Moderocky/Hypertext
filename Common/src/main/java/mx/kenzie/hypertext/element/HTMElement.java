@@ -103,15 +103,14 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
 
     protected void body(OutputStream stream, Charset charset) throws IOException {
         if (single) return;
-        if (children.size() > 0) {
-            if (stream instanceof FormattedOutputStream format) format.increment();
-            for (final Writable child : children) {
-                if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
-                child.write(stream, charset);
-            }
-            if (stream instanceof FormattedOutputStream format) format.decrement();
+        if (children.isEmpty()) return;
+        if (stream instanceof FormattedOutputStream format) format.increment();
+        for (final Writable child : children) {
             if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
+            child.write(stream, charset);
         }
+        if (stream instanceof FormattedOutputStream format) format.decrement();
+        if (!inline && stream instanceof FormattedOutputStream format) format.writeLine();
     }
 
     protected void close(OutputStream stream, Charset charset) throws IOException {
@@ -126,7 +125,7 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
     protected Map<String, String> getEffectiveProperties() {
         final Map<String, String> map = new HashMap<>(properties.size() + 2);
         map.putAll(properties);
-        if (classes.size() > 0) map.put("class", String.join(" ", classes));
+        if (!classes.isEmpty()) map.put("class", String.join(" ", classes));
         return map;
     }
 
