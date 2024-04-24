@@ -4,9 +4,7 @@ public interface StandardElements {
 
     HTMElement
         DOCTYPE_HTML = new Doctype("html"),
-        HTML = new HTMElement("html")
-//            .set("lang", "en") pollution
-.finalise(),
+        HTML = new HTMElement("html").finalise(),
         COMMENT = new HTMComment().finalise(),
         HEAD = new HTMElement("head").finalise(),
         BODY = new HTMElement("body").finalise(),

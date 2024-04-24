@@ -16,6 +16,10 @@ public class HREFElement extends HTMElement {
         return (HREFElement) this.set("href", url);
     }
 
+    public HREFElement alt(String text) {
+        return (HREFElement) this.set("alt", text);
+    }
+
     @Override
     protected HREFElement clone() {
         return super.clone(new HREFElement(tag));
