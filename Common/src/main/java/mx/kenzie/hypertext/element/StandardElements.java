@@ -15,7 +15,7 @@ public interface StandardElements {
     HTMElement
         META = new HTMElement("meta").single().finalise(),
         STYLE = new HTMElement("style").finalise(),
-        TITLE = new HTMElement("title").finalise();
+        TITLE = new HTMElement("title").inline().finalise();
     //endregion
     //region body elements
     HREFElement
@@ -57,12 +57,12 @@ public interface StandardElements {
         FOOTER = new HTMElement("footer").finalise(),
         FORM = new HTMElement("form").finalise(),
     //region headings
-    H1 = new HTMElement("h1").finalise(),
-        H2 = new HTMElement("h2").finalise(),
-        H3 = new HTMElement("h3").finalise(),
-        H4 = new HTMElement("h4").finalise(),
-        H5 = new HTMElement("h5").finalise(),
-        H6 = new HTMElement("h6").finalise(),
+    H1 = new HTMElement("h1").inline().finalise(),
+        H2 = new HTMElement("h2").inline().finalise(),
+        H3 = new HTMElement("h3").inline().finalise(),
+        H4 = new HTMElement("h4").inline().finalise(),
+        H5 = new HTMElement("h5").inline().finalise(),
+        H6 = new HTMElement("h6").inline().finalise(),
     //endregion
     HEADER = new HTMElement("header").finalise(),
         HR = new HTMElement("hr").single().finalise(),
@@ -74,7 +74,7 @@ public interface StandardElements {
         KBD = new HTMElement("kbd").finalise(),
         LABEL = new HTMElement("label").finalise(),
         LEGEND = new HTMElement("legend").finalise(),
-        LI = new HTMElement("li").finalise(),
+        LI = new HTMElement("li").inline().finalise(),
         MAIN = new HTMElement("main").finalise(),
         MAP = new HTMElement("map").finalise(),
         MARK = new HTMElement("mark").finalise(),
@@ -119,7 +119,7 @@ public interface StandardElements {
         TIME = new HTMElement("time").finalise(),
         TR = new HTMElement("tr").finalise(),
         TRACK = new HTMElement("track").single().finalise(),
-        U = new HTMElement("u").finalise(),
+        U = new HTMElement("u").inline().finalise(),
         UL = new HTMElement("ul").finalise(),
         VAR = new HTMElement("var").finalise(),
         VIDEO = new HTMElement("video").finalise(),
