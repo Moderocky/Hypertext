@@ -20,22 +20,31 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
 
     protected final HTMElement[] available;
     protected final InputStream stream;
-    protected final BufferedReader reader;
-    protected HTMElement[] assembled;
-    int i, brackets = 0, writing = 0;
+    protected final Reader reader;
+    int c, brackets = 0, writing = 0;
     boolean close = false, building = false, singlet = false, escape = false;
     StringBuilder tag = new StringBuilder(),
         attribute = new StringBuilder(),
         contents = new StringBuilder();
 
     public HTMElementUnwrapper(String string) {
-        this(STANDARD_ELEMENTS, new ByteArrayInputStream(string.getBytes()), Charset.defaultCharset());
+        this(STANDARD_ELEMENTS, new StringReader(string));
     }
 
     public HTMElementUnwrapper(HTMElement[] available, InputStream stream, Charset charset) {
         this.available = available;
         this.stream = stream;
-        this.reader = new BufferedReader(new InputStreamReader(stream, charset));
+        this.reader = new InputStreamReader(stream, charset);
+    }
+
+    public HTMElementUnwrapper(HTMElement[] available, Reader reader) {
+        this.available = available;
+        this.stream = null;
+        this.reader = reader;
+    }
+
+    public HTMElementUnwrapper(Reader reader) {
+        this(STANDARD_ELEMENTS, reader);
     }
 
     public HTMElementUnwrapper(InputStream stream) {
@@ -53,7 +62,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
             if (!HTMElement.class.isAssignableFrom(field.getType())) continue;
             try {
                 list.add(((HTMElement) field.get(null)));
-            } catch (IllegalAccessException e) {
+            } catch (IllegalAccessException _) {
             }
         }
         return list.toArray(new HTMElement[0]);
@@ -64,8 +73,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
         final List<HTMElement> current = new ArrayList<>();
         final List<String> attributes = new ArrayList<>();
         current.add(page);
-        while ((i = reader.read()) != -1) {
-            final char c = (char) i;
+        while ((c = reader.read()) != -1) {
             switch (c) {
                 case '<' -> {
                     if (writing == 2) break; // name="<>" is ok
@@ -73,7 +81,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                     if (!contents.isEmpty()) { // write trailing contents: <p> blob <...
                         final String string = contents.toString();
                         if (string.isBlank()) break check;
-                        current.get(0).write(string);
+                        current.getFirst().write(string);
                     }
                     brackets++; // open <
                     building = true; // looking for tag name
@@ -120,13 +128,13 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                 }
                 case ' ', '\t' -> {
                     if (building && !tag.toString().isBlank()) building = false; // <   html is ok ?
-                    if (brackets == 0) contents.append(c);
-                    if (writing > 0) attribute.append(c);
+                    if (brackets == 0) contents.append((char) c);
+                    if (writing > 0) attribute.append((char) c);
                 }
                 case '"' -> {
-                    if (brackets == 0) contents.append(c);
+                    if (brackets == 0) contents.append((char) c);
                     else if (brackets > 0) {
-                        if (writing > 0) attribute.append(c);
+                        if (writing > 0) attribute.append((char) c);
                         if (writing == 1) { // name=" <- here
                             writing++;
                         } else if (writing == 2) { // name="thing" <- here
@@ -137,19 +145,19 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                     }
                 }
                 case '/' -> {
-                    if (brackets > 0 && writing == 2) attribute.append(c);
-                    else if (brackets == 0) contents.append(c);
+                    if (brackets > 0 && writing == 2) attribute.append((char) c);
+                    else if (brackets == 0) contents.append((char) c);
                     else {
                         this.close = true;
                         if (tag != null && !tag.isEmpty()) singlet = true;
                     }
                 }
                 default -> {
-                    if (building) tag.append(c);
-                    if (brackets == 0) contents.append(c);
+                    if (building) tag.append((char) c);
+                    if (brackets == 0) contents.append((char) c);
                     else if (brackets > 0 && !building) {
                         if (writing == 0) writing++;
-                        attribute.append(c);
+                        attribute.append((char) c);
                     }
                 }
             }
@@ -159,7 +167,7 @@ public class HTMElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
 
     @Override
     public void close() throws IOException {
-        this.stream.close();
+        if (stream != null) stream.close();
     }
 
     protected HTMElement getOrCreate(String tag) {

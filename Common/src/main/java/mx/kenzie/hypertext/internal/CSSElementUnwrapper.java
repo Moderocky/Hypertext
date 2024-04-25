@@ -5,35 +5,34 @@ import mx.kenzie.hypertext.css.Rule;
 import mx.kenzie.hypertext.element.Page;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable {
 
     protected final InputStream stream;
-    protected final BufferedReader reader;
+    protected final Reader reader;
     protected boolean expectClosingTag;
-    int i, angles;
+    int c;
     boolean block, rule;
     StringBuilder builder = new StringBuilder();
 
-    public CSSElementUnwrapper(BufferedReader reader, boolean expectClosingTag) {
+    public CSSElementUnwrapper(Reader reader, boolean expectClosingTag) {
         this(null, reader, expectClosingTag);
     }
 
-    public CSSElementUnwrapper(InputStream stream, BufferedReader reader, boolean expectClosingTag) {
+    public CSSElementUnwrapper(InputStream stream, Reader reader, boolean expectClosingTag) {
         this.stream = stream;
         this.reader = reader;
         this.expectClosingTag = expectClosingTag;
     }
 
     public CSSElementUnwrapper(String string) {
-        this(new ByteArrayInputStream(string.getBytes(StandardCharsets.UTF_8)));
+        this(new StringReader(string), false);
     }
 
     public CSSElementUnwrapper(InputStream stream) {
-        this(stream, new BufferedReader(new InputStreamReader(stream)), false);
+        this(stream, new InputStreamReader(stream), false);
     }
 
     @Override
@@ -42,27 +41,26 @@ public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
         final List<Rule> current = new ArrayList<>();
         this.reader.mark(1);
         read:
-        while ((i = reader.read()) != -1) {
-            final char c = (char) i;
+        while ((c = reader.read()) != -1) {
             switch (c) {
                 case '{':
                     if (!block && !rule) {
                         final String selector = builder.toString().trim();
                         this.builder = new StringBuilder();
-                        current.add(0, new Rule(selector));
+                        current.addFirst(new Rule(selector));
                         this.block = true;
                         break;
                     }
                 case '}':
                     if (block && !rule) {
-                        final Rule rule = current.get(0);
+                        final Rule rule = current.getFirst();
                         this.block = false;
                         page.child(rule);
                         break;
                     }
                 case ';':
                     if (block && rule) {
-                        final Rule rule = current.get(0);
+                        final Rule rule = current.getFirst();
                         this.rule = false;
                         final String thing = builder.toString().trim();
                         final int index = thing.indexOf(':');
@@ -78,7 +76,7 @@ public class CSSElementUnwrapper implements SourceUnwrapper<Page>, AutoCloseable
                         break read;
                     }
                 default:
-                    builder.append(c);
+                    builder.append((char) c);
                     if (block && !builder.toString().isBlank()) this.rule = true;
             }
             if (expectClosingTag) this.reader.mark(1);
