@@ -89,7 +89,7 @@ public interface StandardElements {
         P = new HTMElement("p").inline().finalise(),
         PARAM = new HTMElement("param").single().finalise(),
         PICTURE = new HTMElement("picture").finalise(),
-        PRE = new HTMElement("pre").finalise(),
+        PRE = new PreElement("pre").finalise(),
         PROGRESS = new HTMElement("progress").finalise(),
         Q = new HTMElement("q").finalise(),
         RP = new HTMElement("rp").finalise(),
