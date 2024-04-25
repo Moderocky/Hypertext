@@ -38,7 +38,7 @@ public class MultiElement extends HTMElement implements Cloneable {
 
     @Override
     public void write(OutputStream stream, Charset charset) throws IOException {
-        this.body(stream, charset);
+        if (nested.length > 0) this.nested[0].write(stream, charset);
     }
 
     @Override

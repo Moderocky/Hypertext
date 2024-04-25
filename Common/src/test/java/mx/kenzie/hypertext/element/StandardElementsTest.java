@@ -31,6 +31,13 @@ public class StandardElementsTest {
                       \t<pre><code>hello
                       there!</code></pre>
                       </div>""", true);
+        this.test(DIV.child(P.write("test"), new MultiElement(PRE, CODE).write("hello\nthere!")),
+                  """
+                      <div>
+                      \t<p>test</p>
+                      \t<pre><code>hello
+                      there!</code></pre>
+                      </div>""", true);
     }
 
     protected void test(Writable content, String expected, boolean pretty) throws IOException {
