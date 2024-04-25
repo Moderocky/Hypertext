@@ -69,4 +69,9 @@ public class MultiElement extends HTMElement implements Cloneable {
         return target;
     }
 
+    @Override
+    public String getTag() {
+        return centre != null ? centre.getTag() : "?";
+    }
+
 }
