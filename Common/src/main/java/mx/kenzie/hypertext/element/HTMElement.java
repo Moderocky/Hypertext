@@ -195,6 +195,10 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
         return list;
     }
 
+    public boolean isInline() {
+        return inline;
+    }
+
     public boolean isFrozen() {
         return finalise;
     }
