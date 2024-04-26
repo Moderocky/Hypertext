@@ -1,12 +1,14 @@
 package mx.kenzie.hypertext;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 @FunctionalInterface
-public interface Writable {
+public interface Writable extends CharSequence {
 
     static Writable of(InputStream stream) {
         return new InputWritable(stream);
@@ -25,6 +27,21 @@ public interface Writable {
      * ```
      */
     void write(OutputStream stream, Charset charset) throws IOException;
+
+    @Override
+    default int length() {
+        return this.toString().length();
+    }
+
+    @Override
+    default char charAt(int index) {
+        return this.toString().charAt(index);
+    }
+
+    @Override
+    default @NotNull CharSequence subSequence(int start, int end) {
+        return this.toString().subSequence(start, end);
+    }
 
 }
 
