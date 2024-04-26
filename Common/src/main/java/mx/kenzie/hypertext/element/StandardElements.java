@@ -104,7 +104,7 @@ public interface StandardElements {
         SOURCE = new HTMElement("source").single().finalise(),
         SPAN = new HTMElement("span").inline().finalise(),
         STRONG = new HTMElement("strong").inline().finalise(),
-        SUB = new HTMElement("sub").finalise(),
+        SUB = new HTMElement("sub").inline().finalise(),
         SUMMARY = new HTMElement("summary").inline().finalise(),
         SUP = new HTMElement("sup").inline().finalise(),
         SVG = new HTMElement("svg").inline().finalise(),
