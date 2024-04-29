@@ -4,6 +4,7 @@ import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
 import mx.kenzie.hypertext.css.Rule;
+import mx.kenzie.hypertext.internal.CSSElementUnwrapper;
 import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +12,7 @@ import org.valross.constantine.Constantive;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -190,6 +192,18 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
         final HTMElement element = this.working();
         element.properties.put("style", rule.inline());
         return element;
+    }
+
+    public boolean hasStyle() {
+        return properties.containsKey("style");
+    }
+
+    public Rule style() {
+        if (this.properties.get("style") instanceof Rule rule) return rule;
+        final Rule rule = Rule.style();
+        final HTMElement element = this.working();
+        element.properties.put("style", rule);
+        return rule;
     }
 
     protected List<HTMElement> getAllChildren() {
