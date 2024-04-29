@@ -77,7 +77,7 @@ public interface StandardElements {
         LI = new HTMElement("li").inline().finalise(),
         MAIN = new HTMElement("main").finalise(),
         MAP = new HTMElement("map").finalise(),
-        MARK = new HTMElement("mark").finalise(),
+        MARK = new HTMElement("mark").inline().finalise(),
         METER = new HTMElement("meter").finalise(),
         NAV = new HTMElement("nav").finalise(),
         NOSCRIPT = new HTMElement("noscript").finalise(),
