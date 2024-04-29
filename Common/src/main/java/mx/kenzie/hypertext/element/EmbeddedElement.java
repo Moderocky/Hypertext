@@ -13,6 +13,11 @@ public class EmbeddedElement extends HREFElement {
     }
 
     @Override
+    public EmbeddedElement single() {
+        return (EmbeddedElement) super.single();
+    }
+
+    @Override
     protected EmbeddedElement clone() {
         return super.clone(new EmbeddedElement(tag));
     }
