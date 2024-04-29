@@ -50,7 +50,7 @@ public interface StandardElements {
         DL = new HTMElement("dl").block().finalise(),
         DT = new HTMElement("dt").inline().finalise(),
         EM = new HTMElement("em").inline().finalise(),
-        EMBED = new HTMElement("embed").finalise(),
+        EMBED = new HTMElement("embed").single().finalise(),
         FIELDSET = new HTMElement("fieldset").finalise(),
         FIGCAPTION = new HTMElement("figcaption").inline().finalise(),
         FIGURE = new HTMElement("figure").finalise(),
