@@ -55,6 +55,10 @@ public class Rule implements Writable {
         return new Rule(builder.toString());
     }
 
+    public static Rule style() {
+        return new Rule().inline();
+    }
+
     public static Rule inside(HTMElement outer, HTMElement inner) {
         return new Rule(outer.getTag() + " " + inner.getTag());
     }
