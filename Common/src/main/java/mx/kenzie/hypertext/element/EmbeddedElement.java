@@ -2,7 +2,7 @@ package mx.kenzie.hypertext.element;
 
 import mx.kenzie.hypertext.Writable;
 
-public class EmbeddedElement extends HREFElement {
+public class EmbeddedElement extends SizedElement {
 
     public EmbeddedElement(String tag, Writable... children) {
         super(tag, children);

@@ -20,6 +20,8 @@ public interface StandardElements {
     //region body elements
     HREFElement
         A = (HREFElement) new HREFElement("a").inline().finalise();
+    EmbeddedElement IMG = (EmbeddedElement) new EmbeddedElement("img").single().finalise(),
+        EMBED = (EmbeddedElement) new EmbeddedElement("embed").single().finalise();
 
     HTMElement
         ABBR = new HTMElement("abbr").finalise(),
@@ -50,7 +52,6 @@ public interface StandardElements {
         DL = new HTMElement("dl").block().finalise(),
         DT = new HTMElement("dt").inline().finalise(),
         EM = new HTMElement("em").inline().finalise(),
-        EMBED = new EmbeddedElement("embed").single().finalise(),
         FIELDSET = new HTMElement("fieldset").finalise(),
         FIGCAPTION = new HTMElement("figcaption").inline().finalise(),
         FIGURE = new HTMElement("figure").finalise(),
@@ -68,7 +69,6 @@ public interface StandardElements {
         HR = new HTMElement("hr").single().finalise(),
         I = new HTMElement("i").inline().finalise(),
         IFRAME = new HTMElement("iframe").finalise(),
-        IMG = new EmbeddedElement("img").single().finalise(),
         INPUT = new HTMElement("input").single().finalise(),
         INS = new HTMElement("ins").finalise(),
         KBD = new HTMElement("kbd").finalise(),
