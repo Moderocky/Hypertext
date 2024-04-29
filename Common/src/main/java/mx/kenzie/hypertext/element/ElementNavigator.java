@@ -53,7 +53,9 @@ class ElementNavigator extends Navigator {
 
     @Override
     protected String get(String key) {
-        return this.element.properties.get(key);
+        final CharSequence sequence = this.element.properties.get(key);
+        if (sequence == null) return null;
+        return sequence.toString();
     }
 
     protected void resetQuery() {

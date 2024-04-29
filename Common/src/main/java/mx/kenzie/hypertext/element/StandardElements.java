@@ -91,7 +91,7 @@ public interface StandardElements {
         PICTURE = new HTMElement("picture").finalise(),
         PRE = new PreElement("pre").finalise(),
         PROGRESS = new HTMElement("progress").finalise(),
-        Q = new HTMElement("q").finalise(),
+        Q = new HTMElement("q").inline().finalise(),
         RP = new HTMElement("rp").inline().finalise(),
         RT = new HTMElement("rt").inline().finalise(),
         RUBY = new HTMElement("ruby").inline().finalise(),
