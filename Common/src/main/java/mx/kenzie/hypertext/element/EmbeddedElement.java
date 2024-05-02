@@ -9,7 +9,7 @@ public class EmbeddedElement extends SizedElement {
     }
 
     public EmbeddedElement src(String source) {
-        return (EmbeddedElement) this.set("src", source);
+        return (EmbeddedElement) this.set(Property.get(Properties.SRC), source);
     }
 
     @Override

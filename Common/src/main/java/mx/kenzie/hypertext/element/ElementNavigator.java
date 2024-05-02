@@ -3,6 +3,7 @@ package mx.kenzie.hypertext.element;
 import mx.kenzie.hypertext.Navigator;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 class ElementNavigator extends Navigator {
 
@@ -26,8 +27,9 @@ class ElementNavigator extends Navigator {
     public Navigator search(String key, String value) {
         if (found == null) this.resetQuery();
         this.found.removeIf(element -> {
-            if (!element.properties.containsKey(key)) return true;
-            return !element.properties.get(key).equals(value);
+            final Map<String, CharSequence> properties = element.getProperties();
+            if (!properties.containsKey(key)) return true;
+            return !properties.get(key).equals(value);
         });
         return this;
     }
@@ -53,7 +55,7 @@ class ElementNavigator extends Navigator {
 
     @Override
     protected String get(String key) {
-        final CharSequence sequence = this.element.properties.get(key);
+        final CharSequence sequence = this.element.getProperties().get(key);
         if (sequence == null) return null;
         return sequence.toString();
     }

@@ -13,11 +13,11 @@ public class SizedElement extends HREFElement {
     }
 
     public SizedElement width(String width) {
-        return (SizedElement) this.set("width", width);
+        return (SizedElement) this.set(Property.get(Properties.WIDTH), width);
     }
 
     public SizedElement height(String height) {
-        return (SizedElement) this.set("height", height);
+        return (SizedElement) this.set(Property.get(Properties.HEIGHT), height);
     }
 
     @Override

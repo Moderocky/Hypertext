@@ -14,11 +14,11 @@ public class LinkElement extends HREFElement {
     }
 
     public LinkElement rel(String type) {
-        return (LinkElement) this.set("rel", type);
+        return (LinkElement) this.set(Property.get(Properties.REL), type);
     }
 
     public LinkElement href(String url) {
-        return (LinkElement) this.set("href", url);
+        return (LinkElement) this.set(Property.get(Properties.HREF), url);
     }
 
     @Override
@@ -27,11 +27,11 @@ public class LinkElement extends HREFElement {
     }
 
     public LinkElement integrity(String hash) {
-        return (LinkElement) this.set("integrity", hash);
+        return (LinkElement) this.set(Property.get(Properties.INTEGRITY), hash);
     }
 
     public LinkElement crossOrigin(String origin) {
-        return (LinkElement) this.set("crossorigin", origin);
+        return (LinkElement) this.set(Property.get(Properties.CROSSORIGIN), origin);
     }
 
 }

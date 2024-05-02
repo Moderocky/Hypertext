@@ -13,11 +13,11 @@ public class HREFElement extends HTMElement {
     }
 
     public HREFElement href(String url) {
-        return (HREFElement) this.set("href", url);
+        return (HREFElement) this.set(Property.get(Properties.HREF), url);
     }
 
     public HREFElement alt(String text) {
-        return (HREFElement) this.set("alt", text);
+        return (HREFElement) this.set(Property.get(Properties.ALT), text);
     }
 
     @Override

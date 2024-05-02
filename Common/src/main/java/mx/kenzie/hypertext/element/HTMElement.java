@@ -4,7 +4,6 @@ import mx.kenzie.hypertext.Navigator;
 import mx.kenzie.hypertext.Writable;
 import mx.kenzie.hypertext.content.Parser;
 import mx.kenzie.hypertext.css.Rule;
-import mx.kenzie.hypertext.internal.CSSElementUnwrapper;
 import mx.kenzie.hypertext.internal.FormattedOutputStream;
 import mx.kenzie.hypertext.internal.StringBuilderOutputStream;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,6 @@ import org.valross.constantine.Constantive;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -21,7 +19,7 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
     protected static final String START = "<", END = ">", END_SINGLE = " />", CLOSE = "</";
     protected final String tag;
     protected final Collection<String> classes;
-    protected final Map<String, CharSequence> properties;
+    protected final Map<CharSequence, CharSequence> properties;
     protected final List<Writable> children;
     protected boolean single;
     protected boolean finalise;
@@ -135,16 +133,23 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
 
     protected Map<String, CharSequence> getEffectiveProperties() {
         final Map<String, CharSequence> map = new HashMap<>(properties.size() + 2);
-        map.putAll(properties);
-        if (!classes.isEmpty()) map.put("class", String.join(" ", classes));
+        for (Map.Entry<CharSequence, CharSequence> entry : properties.entrySet()) {
+            map.put(entry.getKey().toString(), entry.getValue());
+        }
+        if (!classes.isEmpty()) map.put(Property.get(Properties.CLASS).getName(), String.join(" ", classes));
         return map;
     }
 
     public HTMElement id(String id) {
-        return this.set("id", id);
+        return this.set(Property.get(Properties.ID), id);
     }
 
+
     public HTMElement set(String key, String value) {
+        return this.set((CharSequence) key, value);
+    }
+
+    public HTMElement set(CharSequence key, String value) {
         final HTMElement element = this.working();
         element.properties.put(key, value);
         return element;
@@ -190,19 +195,19 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
 
     public HTMElement style(Rule rule) {
         final HTMElement element = this.working();
-        element.properties.put("style", rule.inline());
+        element.properties.put(Property.get(Properties.STYLE), rule.inline());
         return element;
     }
 
     public boolean hasStyle() {
-        return properties.containsKey("style");
+        return properties.containsKey(Property.get(Properties.STYLE));
     }
 
     public Rule style() {
-        if (this.properties.get("style") instanceof Rule rule) return rule;
+        if (this.properties.get(Property.get(Properties.STYLE)) instanceof Rule rule) return rule;
         final Rule rule = Rule.style();
         final HTMElement element = this.working();
-        element.properties.put("style", rule);
+        element.properties.put(Property.get(Properties.STYLE), rule);
         return rule;
     }
 
@@ -237,7 +242,11 @@ public class HTMElement implements Iterable<Writable>, Writable, Constantive {
     }
 
     public Map<String, CharSequence> getProperties() {
-        return new HashMap<>(properties);
+        final Map<String, CharSequence> map = new HashMap<>(properties.size());
+        for (Map.Entry<CharSequence, CharSequence> entry : properties.entrySet()) {
+            map.put(entry.getKey().toString(), entry.getValue());
+        }
+        return map;
     }
 
     public List<String> getClasses() {

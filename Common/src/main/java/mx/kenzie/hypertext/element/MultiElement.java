@@ -42,7 +42,7 @@ public class MultiElement extends HTMElement implements Cloneable {
     }
 
     @Override
-    public HTMElement set(String key, String value) {
+    public HTMElement set(CharSequence key, String value) {
         final MultiElement target;
         if (this.finalise) target = this.clone();
         else target = this;
